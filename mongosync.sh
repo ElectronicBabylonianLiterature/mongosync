@@ -4,9 +4,9 @@ DUMP_FOLDER=/tmp/pull-db/
 RESTORE_FOLDER=/tmp/pull-db/ebl
 
 
-if [[ "$MONGO_PRODUCTION_DB" == "$MONGO_DEVELOPEMENT_DB" ]] || [[ "$MONGO_DEVELOPEMENT_DB" == "ebl" ]]
+if [[ "$MONGO_PRODUCTION_DB" == "$MONGO_DEVELOPMENT_DB" ]] || [[ "$MONGO_DEVELOPMENT_DB" == "ebl" ]]
   then
-    echo "Error: MONGO_PRODUCTION_DB is equal to MONGO_DEVELOPEMENT_DB"
+    echo "Error: MONGO_PRODUCTION_DB is equal to MONGO_DEVELOPMENT_DB"
     exit 1
   else
     echo "---------------STARTING---------------"
@@ -34,7 +34,7 @@ if [[ "$MONGO_PRODUCTION_DB" == "$MONGO_DEVELOPEMENT_DB" ]] || [[ "$MONGO_DEVELO
     -o $DUMP_FOLDER
 
 mongorestore --host $MONGO_HOST \
-  -d $MONGO_DEVELOPEMENT_DB \
+  -d $MONGO_DEVELOPMENT_DB \
    -u $MONGO_USER -p $MONGO_PASSWORD \
   --ssl --sslAllowInvalidCertificates \
   --authenticationDatabase ebl \
