@@ -15,6 +15,7 @@ if [[ "$MONGO_PRODUCTION_DB" == "$MONGO_DEVELOPMENT_DB" ]] || [[ "$MONGO_DEVELOP
     mongodump --host $MONGO_HOST \
     -d $MONGO_PRODUCTION_DB \
     --forceTableScan \
+    --excludeCollectionsWithPrefix=cropped_sign_images \
     --excludeCollectionsWithPrefix=fragments_backup \
     --excludeCollectionsWithPrefix=fragments_bakcup \
     --excludeCollectionsWithPrefix=bibliography_backup \
