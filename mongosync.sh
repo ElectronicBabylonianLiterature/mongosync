@@ -3,6 +3,7 @@
 DUMP_FOLDER=/tmp/pull-db/
 RESTORE_FOLDER=/tmp/pull-db/ebl
 
+MONGO_PASSWORD=$(cat $MONGO_PASSWORD_FILE)
 
 if [[ "$MONGO_PRODUCTION_DB" == "$MONGO_DEVELOPMENT_DB" ]] || [[ "$MONGO_DEVELOPMENT_DB" == "ebl" ]]
   then
