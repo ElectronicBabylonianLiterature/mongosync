@@ -1,0 +1,39 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+    branches: [ main ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+env:
+  PIPENV_VENV_IN_PROJECT: 1
+  SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+  PYMONGOIM__MONGO_VERSION: 4.4
+  PYMONGOIM__OPERATING_SYSTEM: ubuntu
+
+jobs:
+  docker:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: [test]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: docker/setup-buildx-action@v1
+        
+      - uses: docker/login-action@v1 
+        with:
+          registry: ebl.badw.de
+          username: ${{ secrets.EBL_REGISTRY_USERNAME }}
+          password: ${{ secrets.EBL_REGISTRY_PASSWORD }}
+
+      - id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: |
+            ebl.badw.de/mongosync:main
+            ${{format('ebl.badw.de/mongosync:main.{0}', github.run_number)}}
