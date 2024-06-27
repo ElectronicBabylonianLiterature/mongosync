@@ -10,6 +10,9 @@ services:
       MONGO_USER_FILE: /run/secrets/mongosync_user
     networks:
      - default
+    secrets:
+     - mongosync_password
+     - mongosync_user
     deploy:
       placement:
         constraints:
