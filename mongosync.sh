@@ -4,6 +4,7 @@ DUMP_FOLDER=/tmp/pull-db/
 RESTORE_FOLDER=/tmp/pull-db/ebl
 
 MONGO_PASSWORD=$(cat $MONGO_PASSWORD_FILE)
+MONGO_USER=$(cat $MONGO_USER_FILE)
 
 if [[ "$MONGO_PRODUCTION_DB" == "$MONGO_DEVELOPMENT_DB" ]] || [[ "$MONGO_DEVELOPMENT_DB" == "ebl" ]]
   then
@@ -49,3 +50,5 @@ mongorestore --host $MONGO_HOST \
   echo "-"
 fi
 
+unset MONGO_PASSWORD
+unset MONGO_USER

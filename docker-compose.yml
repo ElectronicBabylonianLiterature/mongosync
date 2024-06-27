@@ -1,10 +1,26 @@
+version: '3.3'
 services:
   mongosync:
-    build: .
+    image: ebl.badw.de/mongosync:main
     environment:
-      - MONGO_HOST
-      - MONGO_USER
-      - MONGO_PASSWORD
-      - MONGO_PRODUCTION_DB
-      - MONGO_DEVELOPMENT_DB
-    restart: always
+      MONGO_DEVELOPMENT_DB: ebldev
+      MONGO_HOST: rs-ebl/badwcai-ebl01.srv.mwn.de:27017,badwcai-ebl02.srv.mwn.de:27018,badwcai-ebl03.srv.mwn.de:27019
+      MONGO_PASSWORD_FILE: /run/secrets/mongosync_password
+      MONGO_PRODUCTION_DB: ebl
+      MONGO_USER_FILE: /run/secrets/mongosync_user
+    networks:
+     - default
+    deploy:
+      placement:
+        constraints:
+         - node.hostname == badwcai-ebl03
+    logging:
+      driver: json-file
+secrets:
+  mongosync_password:
+    external: true
+  mongosync_user:
+    external: true
+networks:
+  default:
+    driver: overlay
